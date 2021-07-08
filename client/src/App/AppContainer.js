@@ -15,14 +15,18 @@ function AppContainer(props) {
     const prevValue = useRef([]);
     useEffect(() => {
         socket.on('ticker', response => {
-            // setTicker(response);
-            dispatch(tickerAC(response));
+                // setTicker(response);
+                dispatch(tickerAC(response));
             }
         );
     }, []);
     useEffect(() => {
         prevValue.current = props.ticker;
     }, [props.ticker]);
+    socket.on('newFetchInterval', count => {
+            alert(count);
+        }
+    );
     return (
         <div>
             <App ticker={props.ticker} prevValue={prevValue}/>

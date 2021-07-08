@@ -4,7 +4,7 @@ const http = require('http');
 const io = require('socket.io');
 const cors = require('cors');
 
-const FETCH_INTERVAL = 5000;
+let FETCH_INTERVAL = 5000;
 const PORT = process.env.PORT || 4000;
 
 const tickers = [
@@ -36,7 +36,7 @@ function getQuotes(socket) {
     change_percent: randomValue(0, 1, 2),
     dividend: randomValue(0, 1, 2),
     yield: randomValue(0, 2, 2),
-    last_trade_time: utcDate(),
+    last_trade_time: utcDate()
   }));
 
   socket.emit('ticker', quotes);
