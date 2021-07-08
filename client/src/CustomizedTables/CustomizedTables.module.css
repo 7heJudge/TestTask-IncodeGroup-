@@ -1,0 +1,15 @@
+.wayDown {
+    background-color: red;
+}
+
+.wayUp {
+    background-color: green;
+}
+
+.iconFloatLeft {
+    float: left;
+}
+
+.eyeSlash {
+    cursor: pointer;
+}
