@@ -5,10 +5,18 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import cls from './CustomizedTables.module.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faChevronDown, faChevronUp, faEyeSlash, faEye} from '@fortawesome/free-solid-svg-icons'
+import {
+    faEyeSlash,
+    faEye,
+    faAngleDoubleUp,
+    faAngleDoubleDown
+} from '@fortawesome/free-solid-svg-icons'
 import Table from "@material-ui/core/Table";
 
 export default function CustomizedTables(props) {
+    const handleClick = (props, index) => props.setTickerVisible(props.tickerVisible.map((item, ind) => ind === index
+        ? !item
+        : item));
     return (
         <TableContainer component={Paper}>
             <Table className={props.classes.table} aria-label="customized table">
@@ -35,22 +43,22 @@ export default function CustomizedTables(props) {
                                 {props.prevRows[index] === undefined
                                     ? <props.StyledTableCell align="right">{row.change_percent}%</props.StyledTableCell>
                                     : <props.StyledTableCell align="right"
-                                                       className={props.prevRows[index].change_percent > row.change_percent ? cls.wayDown : cls.wayUp}>
+                                                             className={props.prevRows[index].change_percent > row.change_percent ? cls.wayDown : cls.wayUp}>
                                         <FontAwesomeIcon className={cls.iconFloatLeft}
                                                          icon={props.prevRows[index].change_percent > row.change_percent
-                                                             ? faChevronDown
-                                                             : faChevronUp}/>{row.change_percent}%</props.StyledTableCell>
+                                                             ? faAngleDoubleDown
+                                                             : faAngleDoubleUp}/>{row.change_percent}%
+                                    </props.StyledTableCell>
                                 }
                                 <props.StyledTableCell align="right">{row.dividend}</props.StyledTableCell>
                                 <props.StyledTableCell align="right">{row.yld}</props.StyledTableCell>
                             </>}
                             <props.StyledTableCell align="right" colSpan={"6"}>
                                 <FontAwesomeIcon
-                                    onClick={() => props.setTickerVisible(props.tickerVisible.map((item, ind) => ind === index
-                                        ? !item
-                                        : item))}
+                                    onClick={() => handleClick(props, index)}
                                     className={cls.eyeSlash}
-                                    icon={props.tickerVisible[index] ? faEye : faEyeSlash}/></props.StyledTableCell>
+                                    icon={props.tickerVisible[index] ? faEye : faEyeSlash} data-testid="toggle"/>
+                            </props.StyledTableCell>
                         </props.StyledTableRow>
                     ))}
                 </TableBody>

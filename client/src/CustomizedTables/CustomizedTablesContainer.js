@@ -8,9 +8,12 @@ const StyledTableCell = withStyles((theme) => ({
     head: {
         backgroundColor: theme.palette.common.black,
         color: theme.palette.common.white,
+        fontSize: 16,
+        fontWeight: 700,
     },
     body: {
-        fontSize: 14,
+        fontSize: 16,
+        fontWeight: 700,
     },
 }))(TableCell);
 
@@ -32,20 +35,26 @@ const useStyles = makeStyles({
     },
 });
 
+const dataForMapping = (item) => createData(item.ticker, item.price, item.change, item.change_percent, item.dividend, item.yield);
+
+export let fillingAlongLength = (tickerVisible, ticker, setTickerVisible) => {
+    let visibleArray = [];
+    if (tickerVisible.length !== ticker.length) {
+        ticker.forEach(item => visibleArray.push(true));
+        setTickerVisible(visibleArray);
+    }
+    ;
+};
 
 export default function CustomizedTablesContainer(props) {
-    let visibleArray = [];
     const [tickerVisible, setTickerVisible] = useState([]);
-    if (tickerVisible.length !== props.ticker.length){
-        visibleArray = [];
-      props.ticker.forEach(item => visibleArray.push(true));
-      setTickerVisible(visibleArray);
-    };
+    fillingAlongLength(tickerVisible, props.ticker, setTickerVisible);
     const classes = useStyles();
-    let rows = props.ticker.map(item => createData(item.ticker, item.price, item.change, item.change_percent, item.dividend, item.yield));
-    let prevRows = props.prevValue.map(item => createData(item.ticker, item.price, item.change, item.change_percent, item.dividend, item.yield));
+    let rows = props.ticker.map(dataForMapping);
+    let prevRows = props.prevValue.map(dataForMapping);
     return (
         <CustomizedTables tickerVisible={tickerVisible} setTickerVisible={setTickerVisible} classes={classes}
-                          rows={rows} prevRows={prevRows} StyledTableRow={StyledTableRow} StyledTableCell={StyledTableCell}/>
+                          rows={rows} prevRows={prevRows} StyledTableRow={StyledTableRow}
+                          StyledTableCell={StyledTableCell}/>
     );
 }
